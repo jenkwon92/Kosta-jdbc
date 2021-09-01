@@ -6,3 +6,43 @@ JDBC - Java DataBase Connectivity
 일반사용자 <------> Java Application <------ JDBC ------> DataBase
 
 jdbc 명세(기준)를 기준- > interface 제공
+
+JDBC 설계방식
+- Sun에서는 JDBC 표준(인터페이스) 을 설계
+- DB Vendor(회사) 에서는 JDBC 표준에 의거해 개발( 인터페이스를 implements 한 class 를 정의)
+- Java 응용프로그램(application) 개발자는 JDBC 표중(인터페이스)을 이용해 프로그램을 개발
+
+이러한 설계 방싱이 가지는 장점
+Java 응용프로그램 개발 진영에서는 각 데이터베이스에 관계없이 JDBC 표준(인터페이스)을 보고 개발 -> 하나의 사용방식만 익히면 된다. 생산성 향상
+만약 데이터베이스 제품군이 변경되어야 하더라도 어플리케이션 변경은 최소화, JDBC 연동 부분은 같으므로 각 DB의 sql 특성만 고려하면 된다
+각 DB Vendor에서 자신의 시스템을 업데이트 해도 외부 영향은 최소화, 즉 결합도가 낮아져서 유지보수성이 향상
+
+하나의 메세지 방식(JDBC 표준 인터페이스) 으로
+다양한 구현 객체(Oracle, MsSQL , MySQL, DB2등) 들이 각자의 방식으로 동작하게 할 수 있다
+
+JDBC 프로그래밍 개발단계
+- SELECT 정보 조회
+1. JDBC Driver loading
+2. Connection
+3. PreparedStatement
+4. SQL 실행 : executeQuery()
+5. ResultSet
+6. close
+
+- INSERT, DELETE, UPDATE 정보 생성, 삭제, 수정
+1. JDBC Driver loading
+2. Connection
+3. PreparedStatement
+4. SQL 실행 : executeUpdate()
+5. close
+
+
+
+
+
+
+
+
+
+
+
