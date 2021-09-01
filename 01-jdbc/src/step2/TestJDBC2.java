@@ -22,6 +22,7 @@ public class TestJDBC2 {
 			Class.forName(driver);
 			System.out.println("oracle jdbc driver loading");
 			Connection con =  DriverManager.getConnection("jdbc:oracle:thin:@127.0.0.1:1521:xe","scott", "tiger");
+			//Connection con =  DriverManager.getConnection("jdbc:oracle:thin:@221.150.136.4:1521:xe","scott", "tiger");
 			System.out.println("connection");
 			String sql = "INSERT INTO member(id,password, name,address)  VALUES (?,?,?,?)";
 		
