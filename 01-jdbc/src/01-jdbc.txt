@@ -4,3 +4,5 @@ JDBC - Java DataBase Connectivity
 			자바 어플리케이션과 데이터베이스 연동을 위한 기술
 			
 일반사용자 <------> Java Application <------ JDBC ------> DataBase
+
+jdbc 명세(기준)를 기준- > interface 제공
