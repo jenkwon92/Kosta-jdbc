@@ -1,8 +1,9 @@
-package test_inst;
+package test2;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 
 /*
@@ -22,8 +23,14 @@ public class MemberDAO {
 		if(con!=null)
 			con.close();
 	}
+	//오버로딩
+	public void closeAll(ResultSet rs, PreparedStatement pstmt, Connection con) throws SQLException {
+		if(rs!=null)
+			rs.close();
+		closeAll(pstmt,con);
+	}
 	/*
-	 * DAO 의 메서드에서는 Exception을 mainㅇ로 throws 처리한다 
+	 * DAO 의 메서드에서는 Exception을 main으로 throws 처리한다 
 	 * 
 	 * Connection 
 	 * insert sql 정의
@@ -34,7 +41,7 @@ public class MemberDAO {
 	public void registerMember(MemberVO vo) throws SQLException {
 		Connection con = null;
 		PreparedStatement pstmt = null;
-		try {
+		try { 
 			con = DriverManager.getConnection(url,username,pass);
 			String sql ="INSERT INTO member (id,password,name,address) VALUES (?,?,?,?)";
 			pstmt = con.prepareStatement(sql);
@@ -44,8 +51,8 @@ public class MemberDAO {
 			pstmt.setString(4, vo.getAddress());
 			
 			pstmt.executeUpdate(); 
-		}finally {
-			closeAll(pstmt,con);
+		}finally { //위에 줄에서 하나라도 오류가 나더라도 finally 동작해서 close를 해주기위해 try-finally구조로
+			closeAll(pstmt,con); //finally 안써준다면 예외상황시 close까지 도달하지 못함  -- close안해주면 db connection 횟수는 제한되어있기때문에 어느순간 시스템이 뻗어버림
 		}
 	}
 }
