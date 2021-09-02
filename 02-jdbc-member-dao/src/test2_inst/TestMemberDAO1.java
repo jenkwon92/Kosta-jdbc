@@ -1,6 +1,4 @@
-package test2;
-
-
+package test2_inst;
 
 import java.sql.SQLException;
 

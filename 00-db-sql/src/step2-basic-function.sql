@@ -52,6 +52,113 @@ ALTER TABLE altertest2 RENAME COLUMN hit TO count;
 SELECT * FROM altertest2;
 
 
+/*
+ * 테이블 명 : product
+ * 컬럼 명 : id, name, maker, price
+ * 데이터 타입  : id, price 는 NUMBER
+ * 						name, maker 는 NOT NULL
+ * 	제약 조건 : id는 PRIMARY KEY
+ * 						name, maker 는 NOT NULL
+ * 						price는 DEFAULT 0
+ */
+
+-- DDL
+CREATE TABLE product(
+	id NUMBER PRIMARY KEY,
+	name VARCHAR2(100) NOT NULL,
+	maker VARCHAR2(100) NOT NULL,
+	price NUMBER DEFAULT 0
+)
+
+--DML : INSERT
+INSERT INTO product VALUES(1,'불닭볶음면','삼양',1500);
+INSERT INTO product VALUES(2,'진라면','오뚜기',1100);
+INSERT INTO product VALUES(4,'소주','하이트진로',1600);
+INSERT INTO product VALUES(3,'테라','하이트진로',1800);
+
+--DCL
+COMMIT
+
+--DML : SELECT
+SELECT * FROM product;
+
+-- 데이터 베이스 함수 테스트
+-- COUNT(*)
+SELECT COUNT(*) FROM product; --총 상품수
+SELECT COUNT(*) FROM member; -- 총 회원수
+
+-- 상품 최저가 
+SELECT MIN(price) FROM product;
+--상품 최고가 
+SELECT MAX(price) FROM product;
+--상품 평균가 
+SELECT AVG(price) FROM product;
+-- 상품 평균가 반올림
+SELECT ROUND(AVG(price)) FROM product;
+
+-- 정렬 : 오름차순, 내림차순 정렬
+-- price 오름차순 정렬
+-- ORDER BY 만 명시하면 기본 오름차순
+SELECT name, price FROM product ORDER BY price;
+SELECT name, price FROM product ORDER BY price ASC;
+
+--price 내림차순 정렬
+SELECT name, price FROM product ORDER BY price DESC;
+
+/*
+ * SELECT 
+ * FROM 
+ * WHERE
+ * ORDER BY
+ */
+SELECT id,name,price 
+FROM product 
+WHERE maker='하이트진로' 
+ORDER BY price DESC;
+
+SELECT * FROM product;
+
+--price가 1300 이상 , 2000 이하 인 상품의 name과 price를 조회
+SELECT name, price 
+FROM product 
+WHERE price >= 1300 AND price <=2000 
+ORDER BY price ASC;
+
+-- BETWEEN AND 로 위의 SQL을 표현할 수 있다
+SELECT name, price 
+FROM product
+WHERE price BETWEEN 1300 AND 2000
+ORDER BY price ASC;
+
+--SUBQUERY
+SELECT MAX(price) FROM product;
+SELECT name FROM product WHERE price=1800;
+
+--PRIMARY KEY로 검색해서 상품 존재 유무 확인
+SELECT COUNT(*) FROM product WHERE id=1; --존재하면 1
+SELECT COUNT(*) FROM product WHERE id=7; --존재하지 않으면 0
+
+--컬럼 별칭
+SELECT MIN(price) AS 최저가 FROM product;
+
+-- maker 조회 (중복된 maker정보까지 모두 조회)
+SELECT maker FROM product;
+
+--maker 종류를 조회  (중복없이 maker 종류만 조회)
+SELECT DISTINCT maker FROM product;
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

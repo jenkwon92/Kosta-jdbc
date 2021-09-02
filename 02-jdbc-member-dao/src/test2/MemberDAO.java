@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 /*
  * DAO : Data Access Object 데이터 액세스 로직을 정의하는 객체
@@ -54,6 +55,57 @@ public class MemberDAO {
 		}finally { //위에 줄에서 하나라도 오류가 나더라도 finally 동작해서 close를 해주기위해 try-finally구조로
 			closeAll(pstmt,con); //finally 안써준다면 예외상황시 close까지 도달하지 못함  -- close안해주면 db connection 횟수는 제한되어있기때문에 어느순간 시스템이 뻗어버림
 		}
+	}
+	public MemberVO findMemberById(String id) throws SQLException {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		MemberVO vo = new MemberVO();
+		try {
+			con = DriverManager.getConnection(url,username,pass);
+			String sql ="SELECT * FROM member WHERE id=?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, id);
+			
+			rs = pstmt.executeQuery();
+			//primary key 로 검색했으므로 회원정보가 1명 존재하거나 존재하지 않는다 
+			if(rs.next()) { //검색 결과 행row가 존재하면 true를 반환
+		
+				//강사님 풀이 확인
+				//VO안에 생성자를 생성해두었기때문에 아래와 같이 하지 않고
+				//강사님 풀이대로 하면 됨 
+				
+				vo.setId(rs.getString(1));
+				vo.setPassword(rs.getString(2));
+				vo.setName(rs.getString(3));
+				vo.setAddress(rs.getString(4));
+			}	
+		}finally {
+			closeAll(rs,pstmt,con);
+		}
+		return vo;
+	}
+	public ArrayList<MemberVO> getAllMemberList() throws SQLException {
+		ArrayList <MemberVO> list = new ArrayList<MemberVO> ();
+		MemberVO vo = null;
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			con = DriverManager.getConnection(url, username, pass);
+			String sql = "SELECT id,name FROM member";
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				vo = new MemberVO();
+				vo.setId(rs.getString(1));
+				vo.setName(rs.getString(2));
+				list.add(vo);
+			}
+		}finally {
+			closeAll(rs,pstmt,con);
+		}
+		return list;
 	}
 }
 

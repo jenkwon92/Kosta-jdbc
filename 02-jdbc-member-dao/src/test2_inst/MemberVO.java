@@ -1,4 +1,4 @@
-package test2;
+package test2_inst;
 /*
  * VO : Value Object
  * DTO : Data Transfer Object
@@ -12,7 +12,6 @@ public class MemberVO {
 	public MemberVO() {
 		super();
 	}
-	
 	public MemberVO(String id, String password, String name, String address) {
 		super();
 		this.id = id;

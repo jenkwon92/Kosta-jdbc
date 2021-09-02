@@ -43,7 +43,7 @@ public class MemberDAO {
 		Connection con =null;
 		PreparedStatement pstmt=null;
 		try {
-			con = DriverManager.getConnection(url);
+			con = DriverManager.getConnection(url,username,pass);
 			String sql = "INSERT INTO member (id,password,name,address) VALUES (?,?,?,?)";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, vo.getId());

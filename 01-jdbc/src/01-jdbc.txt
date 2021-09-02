@@ -36,6 +36,24 @@ JDBC 프로그래밍 개발단계
 4. SQL 실행 : executeUpdate()
 5. close
 
+------------------------------------------------------------------------
+MEMBER TABLE에 INSERT 하는 예제 ))
+ 
+        JDBC 개발단계
+        1. JDBC Driver loading
+        2. Connection
+        3. PreparedStatement -> insert sql 실행      
+        	executeUpdate() ( select 시에는 executeQuery() )
+        4. close
+        
+JDBC 란 자바에서 제공하는 데이터베이스와 연결하여 데이터를 주고 받을 수 있도록 하는 인터페이스
+JDBC를 사용하는 방법은 어떤 데이터베이스를 사용하던지 같습니다. 방법은 간략하게 다음과 같습니다. 
+
+1. Class.forName() 을 이용해서 드라이버 로드
+2. DriverManager.getConnection() 으로 연결 얻기
+3. Connection 인스턴스를 이용해서 Statement 객체 생성
+4. Statement 객체의 결과를 ResultSet 이나 int에 받기
+        
 
 
 

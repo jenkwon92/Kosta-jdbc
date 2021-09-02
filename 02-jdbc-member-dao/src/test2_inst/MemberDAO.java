@@ -1,12 +1,11 @@
-package model;
+package test2_inst;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import test2_inst.MemberVO;
+import java.util.ArrayList;
 
 /*
  * DAO : Data Access Object 데이터 액세스 로직을 정의하는 객체
@@ -40,7 +39,7 @@ public class MemberDAO {
 	 * sql 실행
 	 * close
 	 */
-	public void registerMember(model.MemberVO vo) throws SQLException {
+	public void registerMember(MemberVO vo) throws SQLException {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		try { 
@@ -77,6 +76,30 @@ public class MemberDAO {
 			closeAll(rs,pstmt,con);
 		}
 		return vo;
+	}
+	public ArrayList<MemberVO> getAllMemberList() throws SQLException {
+		ArrayList<MemberVO> list = new ArrayList<MemberVO>();
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			con = DriverManager.getConnection(url,username, pass);
+			String sql = "SELECT id,name FROM member";
+			pstmt = con.prepareStatement(sql);
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				//방법 1
+				list.add(new MemberVO(rs.getString(1), null,rs.getString(2),null));
+				//방법 2
+				// MemberVo vo = new Member();
+				//vo.setId(rs.getString(1));
+				//vo.setName(rs.getString(2));
+				//list.add(vo);
+			}
+		}finally {
+			closeAll(rs,pstmt,con);
+		}
+		return null;
 	}
 }
 
