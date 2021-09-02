@@ -10,21 +10,24 @@ import javax.naming.spi.DirStateFactory.Result;
 
 //Data Access Object
 public class ProductDAO {
-	private String driver="oracle.jdbc.OracleDriver";
+	private String driver = "oracle.jdbc.OracleDriver";
 	private String url = "jdbc:oracle:thin:@127.0.0.1:1521:xe";
 	private String username = "scott";
 	private String password = "tiger";
-	public ProductDAO() throws ClassNotFoundException{
+
+	public ProductDAO() throws ClassNotFoundException {
 		Class.forName(driver);
 	}
-	public void closeAll(PreparedStatement pstmt, Connection con ) throws SQLException {
-		if(pstmt != null)
+
+	public void closeAll(PreparedStatement pstmt, Connection con) throws SQLException {
+		if (pstmt != null)
 			pstmt.close();
-		if(con != null)
+		if (con != null)
 			con.close();
 	}
+
 	public void closeAll(ResultSet rs, PreparedStatement pstmt, Connection con) throws SQLException {
-		if(rs != null)
+		if (rs != null)
 			rs.close();
 		closeAll(pstmt, con);
 	}
@@ -35,20 +38,40 @@ public class ProductDAO {
 		ResultSet rs = null;
 		int totalCount = 0;
 		try {
-			con = DriverManager.getConnection(url,username,password);
+			con = DriverManager.getConnection(url, username, password);
 			String sql = "SELECT COUNT(*) FROM product";
 			pstmt = con.prepareStatement(sql);
 			rs = pstmt.executeQuery();
-			while(rs.next())
+			if (rs.next()) // 조회된 결과가 있으면 true를 반환하고 결과 행으로 cursor를 이동한다
 				totalCount = rs.getInt(1);
-		}finally {
+		} finally {
 			closeAll(rs, pstmt, con);
 		}
 		return totalCount;
 	}
+
+	public boolean existsById(int productId) throws SQLException {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+
+		boolean result = false;
+		try {
+			con = DriverManager.getConnection(url, username, password);
+			String sql = "SELECT COUNT(*) FROM product WHERE id=?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, productId);
+			rs = pstmt.executeQuery();
+			//풀이 1
+			/*
+			 * if(rs.next()) { if(rs.getInt(1)==1) result =true; }
+			 */
+			//풀이 2
+			if (rs.next() && rs.getInt(1) == 1)
+				result = true;
+		} finally {
+			closeAll(rs, pstmt, con);
+		}
+		return result;
+	}
 }
-
-
-
-
-
