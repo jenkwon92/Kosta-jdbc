@@ -130,9 +130,15 @@ FROM product
 WHERE price BETWEEN 1300 AND 2000
 ORDER BY price ASC;
 
---SUBQUERY
-SELECT MAX(price) FROM product;
-SELECT name FROM product WHERE price=1800;
+-- SUBQUERY
+ -- 서브쿼리란 부모 쿼리 안에 작성하는 내부의 SELECT 쿼리. 주로 부모 쿼리의 FROM과 WHERE의 조건으로 사용.
+ -- SELECT를 괄호( )로 묶어서 가독성을 높인다
+ 
+ SELECT MAX(PRICE) FROM PRODUCT;
+ SELECT NAME FROM PRODUCT WHERE PRICE=1800;
+ -- 위 두 SQL을 합친 것이 SUBQUERY
+ SELECT NAME FROM PRODUCT WHERE PRICE=(SELECT MAX(PRICE) FROM PRODUCT); --**************
+
 
 --PRIMARY KEY로 검색해서 상품 존재 유무 확인
 SELECT COUNT(*) FROM product WHERE id=1; --존재하면 1

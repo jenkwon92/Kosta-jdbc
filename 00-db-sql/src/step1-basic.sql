@@ -28,6 +28,9 @@ CREATE TABLE member (
 	address VARCHAR2(100)
 )
 
+--DDL : 테이블 삭제 
+DROP TABLE member;
+
 -- DML : 데이터 조회 Read (정보를 읽는다)
 SELECT * FROM member;
 

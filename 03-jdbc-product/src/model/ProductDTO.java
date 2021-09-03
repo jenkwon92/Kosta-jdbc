@@ -1,7 +1,7 @@
 package model;
 // DTO : Data Transfer Object
 public class ProductDTO {
-	private String id;
+	private String id; //연산대상이 아니라 String으로 잡음
 	private String name;
 	private String maker;
 	private int price;
