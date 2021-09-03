@@ -40,11 +40,30 @@ SELECT SYSDATE FROM DUAL;
 --시퀀스명.NEXTVAL - >시퀀스 다음 값을 생성
 SELECT test_seq.NEXTVAL FROM DUAL;
 
-SELECT * FROM member;
+--DROP한 test_seq 시퀀스명으로 다시 시퀀스를 생성해본다 (옵션을 start with 7 적용해서 생성)
+CREATE SEQUENCE test_seq START WITH 7;
 
+--Car TABLE을 생성해서 SEQUENCE 를 이용해본다 
+CREATE TABLE Car (
+	car_no NUMBER PRIMARY KEY,
+	model VARCHAR2(100) NOT NULL
+)
+-- car_seq sequence 를 생성한다
+CREATE SEQUENCE car_seq;
+--INSERT 시에 SEQUENCE를 이용해 car_no를 등록한다
+INSERT INTO car(car_no, model) VALUES(car_seq.NEXTVAL, '테슬라');
+INSERT INTO car(car_no, model) VALUES(car_seq.NEXTVAL, '람보르기니');
 
+SELECT * FROM car;
 
+--guestbook TABLE 에 SEQUENCE를 이용
+CREATE TABLE guestbook(
+	questbook_no NUMBER PRIMARY KEY,
+	title VARCHAR2(100) NOT NULL,
+	content VARCHAR2(1000) NOT NULL
+)
 
+CREATE SEQUENCE guestbook_seq;
 
 
 
