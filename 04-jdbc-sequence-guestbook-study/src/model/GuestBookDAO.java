@@ -45,18 +45,22 @@ public class GuestBookDAO {
 		}
 	}
 	
-	public ArrayList<GuestBookDTO> getAllGuestBookList(){
+	public ArrayList<GuestBookDTO> getAllGuestBookList() throws SQLException{
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
+		ArrayList<GuestBookDTO> list = new ArrayList<GuestBookDTO>();
 		try {
 			con = DriverManager.getConnection(url,username,password);
-			String sql = "SELECT guestbook_no, title,  FROM guestbook";
+			String sql = "SELECT guestbook_no, title, content  FROM guestbook";
 			pstmt = con.prepareStatement(sql);
-			
-			
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				list.add(new GuestBookDTO(rs.getString(1), rs.getString(2), rs.getString(3)));
+			}
 		}finally {
-			
+			closeAll(rs, pstmt, con);
 		}
+		return list;
 	}
 }
