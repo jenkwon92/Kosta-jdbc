@@ -36,13 +36,16 @@ public class GuestBookDAO {
 		PreparedStatement pstmt = null;
 		try {
 			con = DriverManager.getConnection(url,username,password);
-			String sql = "INSERT INTO guestbook(questbook_no,title,content) VALUES (guestbook_seq.nextval,?,?)";
-			pstmt = con.prepareStatement(sql);
+			//String sql = "INSERT INTO guestbook(questbook_no,title,content) VALUES (guestbook_seq.nextval,?,?)";
+			//pstmt = con.prepareStatement(sql);
+			StringBuilder sql = new StringBuilder();
+			sql.append("NSERT INTO guestbook(questbook_no,title,content) ");
+			sql.append("VALUES (guestbook_seq.nextval,?,?)");
+			pstmt = con.prepareStatement(sql.toString());
+			
 			pstmt.setString(1, dto.getTitle());
 			pstmt.setString(2, dto.getContent());
-			//dto = new GuestBookDTO();
-			pstmt.executeUpdate();
-			
+			pstmt.executeUpdate();	
 		}finally {
 			closeAll(pstmt, con);
 		}
@@ -55,7 +58,7 @@ public class GuestBookDAO {
 		ArrayList<GuestBookDTO> list = new ArrayList<GuestBookDTO>();
 		try {
 			con = DriverManager.getConnection(url,username,password);
-			String sql = "SELECT questbook_no, title,content FROM guestbook ORDER BY questbook_no ASC";
+			String sql = "SELECT questbook_no, title,content FROM guestbook ORDER BY questbook_no DESC";
 			pstmt = con.prepareStatement(sql);
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
