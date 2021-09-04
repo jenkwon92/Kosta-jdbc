@@ -50,6 +50,10 @@ public class GuestBookDAO {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
+			con = DriverManager.getConnection(url,username,password);
+			String sql = "SELECT guestbook_no, title,  FROM guestbook";
+			pstmt = con.prepareStatement(sql);
+			
 			
 		}finally {
 			
