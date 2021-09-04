@@ -39,7 +39,7 @@ public class GuestBookDAO {
 			//String sql = "INSERT INTO guestbook(questbook_no,title,content) VALUES (guestbook_seq.nextval,?,?)";
 			//pstmt = con.prepareStatement(sql);
 			StringBuilder sql = new StringBuilder();
-			sql.append("NSERT INTO guestbook(questbook_no,title,content) ");
+			sql.append("INSERT INTO guestbook(questbook_no,title,content) ");
 			sql.append("VALUES (guestbook_seq.nextval,?,?)");
 			pstmt = con.prepareStatement(sql.toString());
 			
