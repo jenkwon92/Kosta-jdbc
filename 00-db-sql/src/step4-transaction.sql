@@ -43,10 +43,13 @@ CREATE TABLE card(
 
 CREATE TABLE point(
 	id VARCHAR2(100) PRIMARY KEY,
-	point_type varchar2(100) NOT NULL,
+	point_type VARCHAR2(100) NOT NULL,
 	point NUMBER NOT NULL
 )
 
+
+SELECT * FROM card;
+SELECT * FROM point;
+
 DROP table card;
 DROP TABLE point;
-
