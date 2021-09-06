@@ -1,12 +1,19 @@
 /* 
-
 오라클 시퀀스(sequence)
 
 : 순차적으로 증가, 유일한 값을 생성하기 위한 객체 
 주로 primary key ( unique + not null ) 를 생성하기 위해 사용
 테이블과는 독립적 구조 
 
-​
+실제 적용시 시퀀스명.NEXTVAL	 :다음 시퀀스 값이 반환
+
+ex)실제 DAO 적용사례 
+	INSERT INTO guestbook(guestbook_no, title) VALUES(guestbook_seq.nextval, ?);
+	
+현재 시퀀스 값을 반환 -> 시퀀스명 .currval
+단 currval은 시퀀스 를 nextval 한 세션 내에서만 사용가능
+(참고 -  session : database에 사용자가 접속~ 접속종료시까지 유지되는 정보)
+
 
 CREATE SEQUENCE 시퀀스명 
 [START WITH 시작번호]
@@ -65,7 +72,10 @@ CREATE TABLE guestbook(
 
 CREATE SEQUENCE guestbook_seq;
 
-
+-- 시퀀스명.NEXTVAL
+SELECT guestbook_seq.NEXTVAL FROM DUAL;
+--시퀀스명.CURRVAL : 단독으로 사용될 수 없고, NEXTVAL 한 컨넥션 내에서 CURRVAL 을 사용할 수 있다 (동일한 세션 내에서만 사용 가능)
+SELECT guestbook_seq.CURRVAL FROM DUAL;
 
 
 
