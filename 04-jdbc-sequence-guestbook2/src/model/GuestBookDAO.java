@@ -106,4 +106,24 @@ public class GuestBookDAO {
 		}
 		
 	}
+
+	public ArrayList<GuestBookDTO> getGuestBookListLikeKeyword(String keyword) throws SQLException {
+		ArrayList<GuestBookDTO> list =new ArrayList<GuestBookDTO>();
+		Connection con = null;
+		PreparedStatement pstmt =null;
+		ResultSet rs = null;
+		try {
+			con = DriverManager.getConnection(url, username, password);
+			String sql = "SELECT * FROM guestbook WHERE title LIKE '%' || ? || '%' ";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, keyword);
+			rs = pstmt.executeQuery();
+			while(rs.next()) {
+				list.add(new GuestBookDTO(rs.getInt(1),rs.getString(2),rs.getString(3)));
+			}
+		}finally {
+			closeAll(rs, pstmt, con);
+		}
+		return list;
+	}
 }

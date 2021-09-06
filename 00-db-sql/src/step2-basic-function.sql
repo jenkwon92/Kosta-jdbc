@@ -153,11 +153,22 @@ SELECT maker FROM product;
 --maker 종류를 조회  (중복없이 maker 종류만 조회)
 SELECT DISTINCT maker FROM product;
 
+-- LIKE 연산자 : 문자열의 일부가 포함되는 내용을 검색하는 연산자 (웹의 검색 기능에서 많이 사용됨)
+--WHERE 컬럼명 LIKE '%검색키워드%'
+-- % 0개 이상의 문자
+SELECT * FROM product WHERE name LIKE '%면%'; 
+SELECT * FROM product WHERE maker LIKE '%트진%'; 
 
+CREATE SEQUENCE guestbook_seq;
+SELECT * FROM guestbook;
 
+--LIKE 연산자를 이용해 title에 즐 문자열이 포함된 방명록 정보를 조회
+SELECT * FROM guestbook WHERE title LIKE '%즐%';
 
-
-
+-- 위 LIKE 적용 SQL PreparedStatement 에 적용하는 방법은 아래와 같다
+/*
+ 	String sql ="SELECT * FROM guestbook WHERE title LIKE '%' || ? || '%' ";
+ */
 
 
 
