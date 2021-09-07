@@ -14,12 +14,14 @@ public class TestGuestBookDAO4 {
 			String keyword ="즐";
 			//keyword ="월";
 			ArrayList<GuestBookDTO> list = dao.getGuestBookListLikeKeyword(keyword);
-			/*
-			 * for(int i=0; i<list.size(); i++) { System.out.println(list.get(i)); }
-			 */
+			
+			  for(int i=0; i<list.size(); i++) { System.out.println(list.get(i)); }
+			 
 			//아래와 같은 방식으로도 for loop를 실행할 수 있다.
-			for(GuestBookDTO dto:list) //list에 있는 모든 요소들을 순차적으로 dto에 할당하면서 반복한다
-				System.out.println(dto);
+			/*
+			 * for(GuestBookDTO dto:list) //list에 있는 모든 요소들을 순차적으로 dto에 할당하면서 반복한다
+			 * System.out.println(dto);
+			 */
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
