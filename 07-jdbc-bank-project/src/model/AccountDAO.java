@@ -46,4 +46,35 @@ public class AccountDAO {
 			closeAll(pstmt, con);
 		}
 	}
+
+	public Integer findBalanceByAccountNo(String string, String string2) throws SQLException, AccountNotFoundException, NotMatchedPasswordException {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		int balance=0;
+		try {
+			con = getConnection();
+			String findSql = "SELECT * FROM account WHERE account_no=?";
+			pstmt = con.prepareStatement(findSql);
+			pstmt.setString(1, string);
+			rs = pstmt.executeQuery();
+			if(!rs.next())
+				throw new AccountNotFoundException("존재하지 않는 계좌번호 입력");
+			pstmt.close();
+			rs.close();
+			
+			String passwordSql = "SELECT  balance FROM account WHERE account_no=? AND password =?";
+			pstmt = con.prepareStatement(passwordSql);
+			pstmt.setString(1, string);
+			pstmt.setString(2, string2);
+			rs = pstmt.executeQuery();
+			if(rs.next())
+				balance = rs.getInt(1);
+			else
+				throw new NotMatchedPasswordException("잘못된 비번입력");
+		}finally {
+			closeAll(rs, pstmt, con);
+		}
+		return balance;
+	}
 }
