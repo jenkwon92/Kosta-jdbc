@@ -1,0 +1,10 @@
+CREATE TABLE account (
+	account_no NUMBER PRIMARY KEY,
+	name VARCHAR2(100) NOT NULL,
+	password VARCHAR2(100) NOT NULL,
+	balance NUMBER NOT NULL
+)
+
+CREATE SEQUENCE account_seq;
+
+SELECT * FROM account;

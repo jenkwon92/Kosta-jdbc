@@ -50,6 +50,13 @@ INSERT INTO s_employee(empno, name, job, salary) VALUES (s_employee_seq.NEXTVAL,
 INSERT INTO s_employee(empno, name, job, salary) VALUES (s_employee_seq.NEXTVAL, '이상순','총무',600);
  
 SELECT * FROM s_employee;
+
+--job에 해당하는 사원의 가장 높은 salary 를 조회
+SELECT MAX(salary) FROM s_employee WHERE job='개발'
+--위 SQL에서 조회된 salary 를 받는 사원 정보
+SELECT empno,name, job, salary FROM s_employee WHERE job='개발' AND salary =(SELECT MAX(salary) FROM s_employee WHERE job='개발');
+
+ 
  
  
  
