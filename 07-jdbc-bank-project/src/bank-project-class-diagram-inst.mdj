@@ -321,6 +321,23 @@
 									"subViews": [
 										{
 											"_type": "UMLOperationView",
+											"_id": "AAAAAAF7xBSOS/ZrXFo=",
+											"_parent": {
+												"$ref": "AAAAAAF7vy5RlQG5wcE="
+											},
+											"model": {
+												"$ref": "AAAAAAF7xBSOM/ZocKg="
+											},
+											"font": "Arial;13;0",
+											"left": 29,
+											"top": 224,
+											"width": 398.38525390625,
+											"height": 13,
+											"text": "+getConnection(): Connection",
+											"horizontalAlignment": 0
+										},
+										{
+											"_type": "UMLOperationView",
 											"_id": "AAAAAAF7vzAeTgM47EU=",
 											"_parent": {
 												"$ref": "AAAAAAF7vy5RlQG5wcE="
@@ -330,7 +347,7 @@
 											},
 											"font": "Arial;13;0",
 											"left": 29,
-											"top": 224,
+											"top": 239,
 											"width": 398.38525390625,
 											"height": 13,
 											"text": "+createAccount(accountVO)",
@@ -347,10 +364,27 @@
 											},
 											"font": "Arial;13;0",
 											"left": 29,
-											"top": 239,
+											"top": 254,
 											"width": 398.38525390625,
 											"height": 13,
 											"text": "+findBalanceByAccountNo(accountNo: String, password: String): int",
+											"horizontalAlignment": 0
+										},
+										{
+											"_type": "UMLOperationView",
+											"_id": "AAAAAAF7xBUBQ/bhbmg=",
+											"_parent": {
+												"$ref": "AAAAAAF7vy5RlQG5wcE="
+											},
+											"model": {
+												"$ref": "AAAAAAF7xBUBOfbe+CY="
+											},
+											"font": "Arial;13;0",
+											"left": 29,
+											"top": 269,
+											"width": 398.38525390625,
+											"height": 13,
+											"text": "+checkAccountAndPassword(accountNo: String, password: String)",
 											"horizontalAlignment": 0
 										},
 										{
@@ -364,7 +398,7 @@
 											},
 											"font": "Arial;13;0",
 											"left": 29,
-											"top": 254,
+											"top": 284,
 											"width": 398.38525390625,
 											"height": 13,
 											"text": "+deposit(AccountNo: String, password: String, int money)",
@@ -381,7 +415,7 @@
 											},
 											"font": "Arial;13;0",
 											"left": 29,
-											"top": 269,
+											"top": 299,
 											"width": 398.38525390625,
 											"height": 13,
 											"text": "+withdraw(accountNo: String, password: String, int money)",
@@ -392,7 +426,7 @@
 									"left": 24,
 									"top": 219,
 									"width": 408.38525390625,
-									"height": 68
+									"height": 98
 								},
 								{
 									"_type": "UMLReceptionCompartmentView",
@@ -432,7 +466,7 @@
 							"left": 24,
 							"top": 184,
 							"width": 408.38525390625,
-							"height": 103,
+							"height": 133,
 							"nameCompartment": {
 								"$ref": "AAAAAAF7vy5RlAGzuBU="
 							},
@@ -717,7 +751,7 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"left": 462,
-									"top": 207,
+									"top": 208,
 									"height": 13,
 									"alpha": 1.5707963267948966,
 									"distance": 15,
@@ -737,8 +771,8 @@
 									},
 									"visible": null,
 									"font": "Arial;13;0",
-									"left": 462,
-									"top": 192,
+									"left": 461,
+									"top": 193,
 									"height": 13,
 									"alpha": 1.5707963267948966,
 									"distance": 30,
@@ -759,7 +793,7 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"left": 463,
-									"top": 236,
+									"top": 237,
 									"height": 13,
 									"alpha": -1.5707963267948966,
 									"distance": 15,
@@ -779,8 +813,8 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": 457,
-									"top": 207,
+									"left": 456,
+									"top": 208,
 									"height": 13,
 									"alpha": 0.5235987755982988,
 									"distance": 30,
@@ -800,8 +834,8 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": 459,
-									"top": 193,
+									"left": 457,
+									"top": 195,
 									"height": 13,
 									"alpha": 0.7853981633974483,
 									"distance": 40,
@@ -822,7 +856,7 @@
 									"visible": false,
 									"font": "Arial;13;0",
 									"left": 454,
-									"top": 234,
+									"top": 236,
 									"height": 13,
 									"alpha": -0.5235987755982988,
 									"distance": 25,
@@ -842,8 +876,8 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": 467,
-									"top": 206,
+									"left": 466,
+									"top": 208,
 									"height": 13,
 									"alpha": -0.5235987755982988,
 									"distance": 30,
@@ -862,8 +896,8 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": 464,
-									"top": 193,
+									"left": 463,
+									"top": 195,
 									"height": 13,
 									"alpha": -0.7853981633974483,
 									"distance": 40,
@@ -882,8 +916,8 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": 472,
-									"top": 234,
+									"left": 473,
+									"top": 235,
 									"height": 13,
 									"alpha": 0.5235987755982988,
 									"distance": 25,
@@ -932,7 +966,7 @@
 								"$ref": "AAAAAAF7vy5RlAGyJkg="
 							},
 							"lineStyle": 1,
-							"points": "432:229;494:227",
+							"points": "432:232;494:227",
 							"showVisibility": true,
 							"nameLabel": {
 								"$ref": "AAAAAAF7vy/EPAIr1ik="
@@ -2030,7 +2064,7 @@
 											},
 											"visible": false,
 											"font": "Arial;13;0",
-											"width": 73.67724609375,
+											"width": 78.12060546875,
 											"height": 13,
 											"text": "(from Model)"
 										},
@@ -2194,6 +2228,25 @@
 					"operations": [
 						{
 							"_type": "UMLOperation",
+							"_id": "AAAAAAF7xBSOM/ZocKg=",
+							"_parent": {
+								"$ref": "AAAAAAF7vy5RkwGwDPk="
+							},
+							"name": "getConnection",
+							"parameters": [
+								{
+									"_type": "UMLParameter",
+									"_id": "AAAAAAF7xBTOIfZ+83Y=",
+									"_parent": {
+										"$ref": "AAAAAAF7xBSOM/ZocKg="
+									},
+									"type": "Connection",
+									"direction": "return"
+								}
+							]
+						},
+						{
+							"_type": "UMLOperation",
 							"_id": "AAAAAAF7vzAeRQM1v1Q=",
 							"_parent": {
 								"$ref": "AAAAAAF7vy5RkwGwDPk="
@@ -2245,6 +2298,34 @@
 									},
 									"type": "int",
 									"direction": "return"
+								}
+							]
+						},
+						{
+							"_type": "UMLOperation",
+							"_id": "AAAAAAF7xBUBOfbe+CY=",
+							"_parent": {
+								"$ref": "AAAAAAF7vy5RkwGwDPk="
+							},
+							"name": "checkAccountAndPassword",
+							"parameters": [
+								{
+									"_type": "UMLParameter",
+									"_id": "AAAAAAF7xBVtgPb0weo=",
+									"_parent": {
+										"$ref": "AAAAAAF7xBUBOfbe+CY="
+									},
+									"name": "accountNo",
+									"type": "String"
+								},
+								{
+									"_type": "UMLParameter",
+									"_id": "AAAAAAF7xBVtgfb13FY=",
+									"_parent": {
+										"$ref": "AAAAAAF7xBUBOfbe+CY="
+									},
+									"name": "password",
+									"type": "String"
 								}
 							]
 						},
