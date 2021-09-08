@@ -77,6 +77,29 @@ public class AccountDAO {
 		}
 		return balance;
 	}
+	//계좌번호 존재 유무와 비밀번호 일치 여부를 확인하는 메서드
+		public void checkAccountNoAndPassword(String accountNo, String password) throws SQLException, AccountNotFoundException, NotMatchedPasswordException {
+			Connection con = null;
+			PreparedStatement pstmt = null;
+			ResultSet rs =null;
+			try {
+				con = getConnection();
+				String sql ="SELECT password FROM account WHERE account_no=?";
+				pstmt = con.prepareStatement(sql);
+				pstmt.setString(1, accountNo);
+				rs = pstmt.executeQuery();
+				if(rs.next()) {
+					if(!(rs.getString(1).equals(password)))
+							throw new NotMatchedPasswordException("비밀번호가 일치하지 않습니다");
+				}else {
+					throw new AccountNotFoundException("존재하는 계좌번호가 아닙니다.");
+				}
+				
+			} finally {
+				closeAll(rs, pstmt, con);
+			}
+
+		}
 	/**
 	 * 계좌에 입금하는 메서드
 	 * 입금액이 0원 이하이면 noMoneyException을 발생시키고 전파

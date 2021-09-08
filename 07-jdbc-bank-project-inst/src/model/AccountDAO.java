@@ -10,113 +10,134 @@ public class AccountDAO {
 	public AccountDAO() throws ClassNotFoundException {
 		Class.forName(DbInfo.DRIVER);
 	}
-	public void closeAll(PreparedStatement pstmt,Connection con) throws SQLException {
-		if(pstmt!=null)
+
+	public void closeAll(PreparedStatement pstmt, Connection con) throws SQLException {
+		if (pstmt != null)
 			pstmt.close();
-		if(con!=null)
+		if (con != null)
 			con.close();
 	}
-	public void closeAll(ResultSet rs,PreparedStatement pstmt,Connection con) throws SQLException {
-		if(rs!=null)
+
+	public void closeAll(ResultSet rs, PreparedStatement pstmt, Connection con) throws SQLException {
+		if (rs != null)
 			rs.close();
 		closeAll(pstmt, con);
-	}	
+	}
+
 	private Connection getConnection() throws SQLException {
 		return DriverManager.getConnection(DbInfo.URL, DbInfo.USERNAME, DbInfo.PASSWORD);
 	}
+
 	public void createAccount(AccountVO accountVO) throws CreateAccountException, SQLException {
-		if(accountVO.getBalance()<1000)
+		if (accountVO.getBalance() < 1000)
 			throw new CreateAccountException("계좌 개설시 초기 납입금은 1000원 이상이어야 합니다");
-		Connection con=null;
-		PreparedStatement pstmt=null;
+		Connection con = null;
+		PreparedStatement pstmt = null;
 		try {
-			con=getConnection();
-			StringBuilder sql=new StringBuilder("insert into account(account_no,name,password,balance) ");
+			con = getConnection();
+			StringBuilder sql = new StringBuilder("insert into account(account_no,name,password,balance) ");
 			sql.append("values(account_seq.nextval,?,?,?)");
-			pstmt=con.prepareStatement(sql.toString());
+			pstmt = con.prepareStatement(sql.toString());
 			pstmt.setString(1, accountVO.getName());
 			pstmt.setString(2, accountVO.getPassword());
 			pstmt.setInt(3, accountVO.getBalance());
 			pstmt.executeUpdate();
-		}finally {
+		} finally {
 			closeAll(pstmt, con);
 		}
 	}
-	public int findBalanceByAccountNo(String accountNo, String password) throws SQLException, AccountNotFoundException, NotMatchedPasswordException {
+	
+	public int findBalanceByAccountNo(String accountNo, String password)
+			throws SQLException, AccountNotFoundException, NotMatchedPasswordException {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
-		int balance=0;
+		int balance = 0;
 		try {
 			con = getConnection();
 			String sql = "SELECT password, balance FROM account where account_no=?";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, accountNo);
 			rs = pstmt.executeQuery();
-			if(rs.next()) { //계좌번호에 해당하는 계좌가 있으면
-				if(rs.getString(1).equals(password)) //매개변수 password와 db의 password가 일치하면
+			if (rs.next()) { // 계좌번호에 해당하는 계좌가 있으면
+				if (rs.getString(1).equals(password)) // 매개변수 password와 db의 password가 일치하면
 					balance = rs.getInt(2);
-				else //매개변수 password와 db의 password가 일치하지 않으면
+				else // 매개변수 password와 db의 password가 일치하지 않으면
 					throw new NotMatchedPasswordException("계좌의 비밀번호가 일치하지 않습니다");
-			}else { //계좌번호에 해당하는 계좌가 존재하지 않으면
+			} else { // 계좌번호에 해당하는 계좌가 존재하지 않으면
 				throw new AccountNotFoundException("계좌번호에 해당하는 계좌가 존재하지 않습니다");
 			}
 			pstmt.close();
 			rs.close();
-		}finally {
+		} finally {
 			closeAll(rs, pstmt, con);
 		}
 		return balance;
 	}
+	/**계좌번호 존재 유무와 비밀번호 일치 여부를 확인하는 메서드
+	 * 매개변수에 전달된 계좌번호가 존재하지 않으면 AccountNotFoundException 발생시키고 전파 
+	 * 매개변수에 전달된 계좌번호에 대한 비밀번호가 일치하지 않으면 NotMatchedPasswordException 발생시키고 전파
+	 * @param accountNo
+	 * @param password
+	 * @throws SQLException
+	 * @throws AccountNotFoundException
+	 * @throws NotMatchedPasswordException
+	 */
+	public void checkAccountNoAndPassword(String accountNo, String password) throws SQLException, AccountNotFoundException, NotMatchedPasswordException {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs =null;
+		try {
+			con = getConnection();
+			String sql ="SELECT password FROM account WHERE account_no=?";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, accountNo);
+			rs = pstmt.executeQuery();
+			if(rs.next()) {
+				if(!(rs.getString(1).equals(password)))
+						throw new NotMatchedPasswordException("비밀번호가 일치하지 않습니다");
+			}else {
+				throw new AccountNotFoundException("존재하는 계좌번호가 아닙니다.");
+			}
+			
+		} finally {
+			closeAll(rs, pstmt, con);
+		}
+
+	}
+
 	/**
-	 * 계좌에 입금하는 메서드
-	 * 입금액이 0원 이하이면 noMoneyException을 발생시키고 전파
-	 * 계좌번호가 존재하지 않으면 AccountNotFoundException을 발생시키고 전파
-	 * 패스원드가 일치하지 않으면 NotMatchedPasswordException을 발생시키고 전파
-	 * 입금액이 0원을 초과하고 계좌번호 존재하고 패스워드도 일치하면 입금처리
+	 * 계좌에 입금하는 메서드 입금액이 0원 이하이면 noMoneyException을 발생시키고 전파 계좌번호가 존재하지 않으면
+	 * AccountNotFoundException을 발생시키고 전파 패스원드가 일치하지 않으면
+	 * NotMatchedPasswordException을 발생시키고 전파 입금액이 0원을 초과하고 계좌번호 존재하고 패스워드도 일치하면 입금처리
+	 * 
 	 * @param accountNo
 	 * @param password
 	 * @param money
-	 * @throws NoMoneyException 
-	 * @throws NotMatchedPasswordException 
-	 * @throws AccountNotFoundException 
-	 * @throws SQLException 
+	 * @throws NoMoneyException
+	 * @throws NotMatchedPasswordException
+	 * @throws AccountNotFoundException
+	 * @throws SQLException
 	 */
-	public void deposit(String accountNo, String password, int money) throws NoMoneyException, SQLException, AccountNotFoundException, NotMatchedPasswordException {
-		if(money<=0)
+	public void deposit(String accountNo, String password, int money)
+			throws NoMoneyException, SQLException, AccountNotFoundException, NotMatchedPasswordException {
+		if (money <= 0)
 			throw new NoMoneyException("입금액을 0원이상 설정해주세요");
-		
-		int balance = findBalanceByAccountNo(accountNo,password);
+
+		int balance = findBalanceByAccountNo(accountNo, password); // 작업과 동시에 계좌이체가 들어올 경우에 balance 값이 정확하지 않을 수 있음
 		Connection con = null;
-		PreparedStatement pstmt =null;
+		PreparedStatement pstmt = null;
 		try {
 			con = getConnection();
-			String sql ="UPDATE account SET balance =? WHERE account_no=? AND password=? ";
+			String sql = "UPDATE account SET balance =? WHERE account_no=? AND password=? ";
 			pstmt = con.prepareStatement(sql);
-			pstmt.setInt(1, balance+money);
+			pstmt.setInt(1, balance + money);
 			pstmt.setString(2, accountNo);
 			pstmt.setString(3, password);
 			pstmt.executeUpdate();
-		}finally {
+		} finally {
 			closeAll(pstmt, con);
 		}
 	}
-	
+
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
