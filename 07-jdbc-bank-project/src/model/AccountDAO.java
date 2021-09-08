@@ -47,7 +47,7 @@ public class AccountDAO {
 		}
 	}
 
-	public Integer findBalanceByAccountNo(String string, String string2) throws SQLException, AccountNotFoundException, NotMatchedPasswordException {
+	public int findBalanceByAccountNo(String string, String string2) throws SQLException, AccountNotFoundException, NotMatchedPasswordException {
 		Connection con = null;
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
