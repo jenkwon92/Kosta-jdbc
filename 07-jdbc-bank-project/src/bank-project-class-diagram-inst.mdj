@@ -244,7 +244,7 @@
 											"font": "Arial;13;1",
 											"left": 29,
 											"top": 191,
-											"width": 398.38525390625,
+											"width": 534.3203125,
 											"height": 13,
 											"text": "AccountDAO"
 										},
@@ -279,7 +279,7 @@
 									"font": "Arial;13;0",
 									"left": 24,
 									"top": 184,
-									"width": 408.38525390625,
+									"width": 544.3203125,
 									"height": 25,
 									"stereotypeLabel": {
 										"$ref": "AAAAAAF7vy5RlAG0vAk="
@@ -306,7 +306,7 @@
 									"font": "Arial;13;0",
 									"left": 24,
 									"top": 209,
-									"width": 408.38525390625,
+									"width": 544.3203125,
 									"height": 10
 								},
 								{
@@ -331,7 +331,7 @@
 											"font": "Arial;13;0",
 											"left": 29,
 											"top": 224,
-											"width": 398.38525390625,
+											"width": 534.3203125,
 											"height": 13,
 											"text": "+getConnection(): Connection",
 											"horizontalAlignment": 0
@@ -348,7 +348,7 @@
 											"font": "Arial;13;0",
 											"left": 29,
 											"top": 239,
-											"width": 398.38525390625,
+											"width": 534.3203125,
 											"height": 13,
 											"text": "+createAccount(accountVO)",
 											"horizontalAlignment": 0
@@ -365,7 +365,7 @@
 											"font": "Arial;13;0",
 											"left": 29,
 											"top": 254,
-											"width": 398.38525390625,
+											"width": 534.3203125,
 											"height": 13,
 											"text": "+findBalanceByAccountNo(accountNo: String, password: String): int",
 											"horizontalAlignment": 0
@@ -382,7 +382,7 @@
 											"font": "Arial;13;0",
 											"left": 29,
 											"top": 269,
-											"width": 398.38525390625,
+											"width": 534.3203125,
 											"height": 13,
 											"text": "+checkAccountAndPassword(accountNo: String, password: String)",
 											"horizontalAlignment": 0
@@ -399,7 +399,7 @@
 											"font": "Arial;13;0",
 											"left": 29,
 											"top": 284,
-											"width": 398.38525390625,
+											"width": 534.3203125,
 											"height": 13,
 											"text": "+deposit(AccountNo: String, password: String, int money)",
 											"horizontalAlignment": 0
@@ -416,17 +416,51 @@
 											"font": "Arial;13;0",
 											"left": 29,
 											"top": 299,
-											"width": 398.38525390625,
+											"width": 534.3203125,
 											"height": 13,
 											"text": "+withdraw(accountNo: String, password: String, int money)",
+											"horizontalAlignment": 0
+										},
+										{
+											"_type": "UMLOperationView",
+											"_id": "AAAAAAF7xJOakPeBOGg=",
+											"_parent": {
+												"$ref": "AAAAAAF7vy5RlQG5wcE="
+											},
+											"model": {
+												"$ref": "AAAAAAF7xJOabfd+5Xw="
+											},
+											"font": "Arial;13;0",
+											"left": 29,
+											"top": 314,
+											"width": 534.3203125,
+											"height": 13,
+											"text": "+existsAccountNo(accountNo: String): boolean",
+											"horizontalAlignment": 0
+										},
+										{
+											"_type": "UMLOperationView",
+											"_id": "AAAAAAF7xJPkN/eno1w=",
+											"_parent": {
+												"$ref": "AAAAAAF7vy5RlQG5wcE="
+											},
+											"model": {
+												"$ref": "AAAAAAF7xJPkL/ekF7w="
+											},
+											"font": "Arial;13;0",
+											"left": 29,
+											"top": 329,
+											"width": 534.3203125,
+											"height": 13,
+											"text": "+transfer(senderAccountNo: String, password: String, money: int, receiverAccountNo: String)",
 											"horizontalAlignment": 0
 										}
 									],
 									"font": "Arial;13;0",
 									"left": 24,
 									"top": 219,
-									"width": 408.38525390625,
-									"height": 98
+									"width": 544.3203125,
+									"height": 128
 								},
 								{
 									"_type": "UMLReceptionCompartmentView",
@@ -465,8 +499,8 @@
 							"containerChangeable": true,
 							"left": 24,
 							"top": 184,
-							"width": 408.38525390625,
-							"height": 133,
+							"width": 544.3203125,
+							"height": 163,
 							"nameCompartment": {
 								"$ref": "AAAAAAF7vy5RlAGzuBU="
 							},
@@ -750,8 +784,8 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": 462,
-									"top": 208,
+									"left": 360,
+									"top": 231,
 									"height": 13,
 									"alpha": 1.5707963267948966,
 									"distance": 15,
@@ -771,8 +805,8 @@
 									},
 									"visible": null,
 									"font": "Arial;13;0",
-									"left": 461,
-									"top": 193,
+									"left": 357,
+									"top": 216,
 									"height": 13,
 									"alpha": 1.5707963267948966,
 									"distance": 30,
@@ -792,8 +826,8 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": 463,
-									"top": 237,
+									"left": 365,
+									"top": 260,
 									"height": 13,
 									"alpha": -1.5707963267948966,
 									"distance": 15,
@@ -813,8 +847,8 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": 456,
-									"top": 208,
+									"left": 317,
+									"top": 239,
 									"height": 13,
 									"alpha": 0.5235987755982988,
 									"distance": 30,
@@ -834,8 +868,8 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": 457,
-									"top": 195,
+									"left": 317,
+									"top": 225,
 									"height": 13,
 									"alpha": 0.7853981633974483,
 									"distance": 40,
@@ -855,8 +889,8 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": 454,
-									"top": 236,
+									"left": 318,
+									"top": 267,
 									"height": 13,
 									"alpha": -0.5235987755982988,
 									"distance": 25,
@@ -876,8 +910,8 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": 466,
-									"top": 208,
+									"left": 402,
+									"top": 223,
 									"height": 13,
 									"alpha": -0.5235987755982988,
 									"distance": 30,
@@ -896,8 +930,8 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": 463,
-									"top": 195,
+									"left": 397,
+									"top": 210,
 									"height": 13,
 									"alpha": -0.7853981633974483,
 									"distance": 40,
@@ -916,8 +950,8 @@
 									},
 									"visible": false,
 									"font": "Arial;13;0",
-									"left": 473,
-									"top": 235,
+									"left": 412,
+									"top": 249,
 									"height": 13,
 									"alpha": 0.5235987755982988,
 									"distance": 25,
@@ -966,7 +1000,7 @@
 								"$ref": "AAAAAAF7vy5RlAGyJkg="
 							},
 							"lineStyle": 1,
-							"points": "432:232;494:227",
+							"points": "295:265;431:239",
 							"showVisibility": true,
 							"nameLabel": {
 								"$ref": "AAAAAAF7vy/EPAIr1ik="
@@ -2400,6 +2434,80 @@
 									},
 									"name": "int money",
 									"type": ""
+								}
+							]
+						},
+						{
+							"_type": "UMLOperation",
+							"_id": "AAAAAAF7xJOabfd+5Xw=",
+							"_parent": {
+								"$ref": "AAAAAAF7vy5RkwGwDPk="
+							},
+							"name": "existsAccountNo",
+							"parameters": [
+								{
+									"_type": "UMLParameter",
+									"_id": "AAAAAAF7xJPjsPeUXQk=",
+									"_parent": {
+										"$ref": "AAAAAAF7xJOabfd+5Xw="
+									},
+									"name": "accountNo",
+									"type": "String"
+								},
+								{
+									"_type": "UMLParameter",
+									"_id": "AAAAAAF7xJPjsPeVy1I=",
+									"_parent": {
+										"$ref": "AAAAAAF7xJOabfd+5Xw="
+									},
+									"type": "boolean",
+									"direction": "return"
+								}
+							]
+						},
+						{
+							"_type": "UMLOperation",
+							"_id": "AAAAAAF7xJPkL/ekF7w=",
+							"_parent": {
+								"$ref": "AAAAAAF7vy5RkwGwDPk="
+							},
+							"name": "transfer",
+							"parameters": [
+								{
+									"_type": "UMLParameter",
+									"_id": "AAAAAAF7xJWvHfe6cqE=",
+									"_parent": {
+										"$ref": "AAAAAAF7xJPkL/ekF7w="
+									},
+									"name": "senderAccountNo",
+									"type": "String"
+								},
+								{
+									"_type": "UMLParameter",
+									"_id": "AAAAAAF7xJWvHfe74O0=",
+									"_parent": {
+										"$ref": "AAAAAAF7xJPkL/ekF7w="
+									},
+									"name": "password",
+									"type": "String"
+								},
+								{
+									"_type": "UMLParameter",
+									"_id": "AAAAAAF7xJWvHfe8psA=",
+									"_parent": {
+										"$ref": "AAAAAAF7xJPkL/ekF7w="
+									},
+									"name": "money",
+									"type": "int"
+								},
+								{
+									"_type": "UMLParameter",
+									"_id": "AAAAAAF7xJWvHve9Rms=",
+									"_parent": {
+										"$ref": "AAAAAAF7xJPkL/ekF7w="
+									},
+									"name": "receiverAccountNo",
+									"type": "String"
 								}
 							]
 						}
