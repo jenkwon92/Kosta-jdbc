@@ -68,6 +68,40 @@ public class AccountDAO {
 		}
 		return balance;
 	}
+	/**
+	 * 계좌에 입금하는 메서드
+	 * 입금액이 0원 이하이면 noMoneyException을 발생시키고 전파
+	 * 계좌번호가 존재하지 않으면 AccountNotFoundException을 발생시키고 전파
+	 * 패스원드가 일치하지 않으면 NotMatchedPasswordException을 발생시키고 전파
+	 * 입금액이 0원을 초과하고 계좌번호 존재하고 패스워드도 일치하면 입금처리
+	 * @param accountNo
+	 * @param password
+	 * @param money
+	 * @throws NoMoneyException 
+	 * @throws NotMatchedPasswordException 
+	 * @throws AccountNotFoundException 
+	 * @throws SQLException 
+	 */
+	public void deposit(String accountNo, String password, int money) throws NoMoneyException, SQLException, AccountNotFoundException, NotMatchedPasswordException {
+		if(money<=0)
+			throw new NoMoneyException("입금액을 0원이상 설정해주세요");
+		
+		int balance = findBalanceByAccountNo(accountNo,password);
+		Connection con = null;
+		PreparedStatement pstmt =null;
+		try {
+			con = getConnection();
+			String sql ="UPDATE account SET balance =? WHERE account_no=? AND password=? ";
+			pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, balance+money);
+			pstmt.setString(2, accountNo);
+			pstmt.setString(3, password);
+			pstmt.executeUpdate();
+		}finally {
+			closeAll(pstmt, con);
+		}
+	}
+	
 }
 
 
