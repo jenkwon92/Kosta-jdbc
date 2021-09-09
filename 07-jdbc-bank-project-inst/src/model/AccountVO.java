@@ -8,6 +8,13 @@ public class AccountVO {
 	public AccountVO() {
 		super();		
 	}
+	//오버로딩 규칙: 순서, 타입 갯수 달라야 하므로 아래와 같이 순서를 변경하면 오버로딩이 된다
+		public AccountVO( String accountNo, int balance,String name) {
+			super();
+			this.accountNo = accountNo;
+			this.name = name;
+			this.balance = balance;
+		}
 	public AccountVO(String name, String password, int balance) {
 		super();
 		this.name = name;

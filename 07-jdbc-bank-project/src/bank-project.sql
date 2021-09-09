@@ -23,5 +23,7 @@ UPDATE account SET balance=(balance=balance-50 WHERE account_no=1) AND (balance=
 UPDATE account SET balance=balance-50 WHERE account_no=1 AND balance=balance+50 WHERE account_no=2;
 
 
+--UPDATE 테이블명 SET (컬럼명, 컬럼명) = (SELECT 컬럼명, 컬럼명  FROM 테이블명 WHERE 조건)
 
+SELECT * FROM account WHERE balance=(SELECT MAX(balance) FROM account);
 

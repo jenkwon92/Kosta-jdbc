@@ -15,6 +15,14 @@ public class AccountVO {
 		this.password = password;
 		this.balance = balance;
 	}
+	
+	//오버로딩 규칙: 순서, 타입 갯수 달라야 하므로 아래와 같이 순서를 변경하면 오버로딩이 된다
+	public AccountVO(int balance, String accountNo, String name) {
+		super();
+		this.accountNo = accountNo;
+		this.name = name;
+		this.balance = balance;
+	}
 
 	public AccountVO(String accountNo, String name, String password, int balance) {
 		super();
@@ -23,6 +31,8 @@ public class AccountVO {
 		this.password = password;
 		this.balance = balance;
 	}
+	
+	
 
 	public String getAccountNo() {
 		return accountNo;

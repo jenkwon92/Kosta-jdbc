@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class AccountDAO {
 	public AccountDAO() throws ClassNotFoundException {
@@ -171,53 +172,104 @@ public class AccountDAO {
 	public boolean existAccountNo(String accountNo) throws SQLException {
 		boolean result = false;
 		Connection con = null;
-		PreparedStatement pstmt =null;
+		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		try {
 			con = getConnection();
-			String sql ="SELECT COUNT(*) FROM account WHERE account_no=?";
+			String sql = "SELECT COUNT(*) FROM account WHERE account_no=?";
 			pstmt = con.prepareStatement(sql);
 			pstmt.setString(1, accountNo);
 			rs = pstmt.executeQuery();
-			if(rs.next() && rs.getInt(1)==1) //조회결과가 1이면 존재하므로 true를 할당
+			if (rs.next() && rs.getInt(1) == 1) // 조회결과가 1이면 존재하므로 true를 할당
 				result = true;
-		}finally {
+		} finally {
 			closeAll(rs, pstmt, con);
 		}
 		return result;
 	}
-	
-	
-	public void transfer(String accountNo, String password, int money, String receiverAccount) throws SQLException, AccountNotFoundException, NotMatchedPasswordException, InsufficientBalanceException, NoMoneyException {
+
+	/**
+	 * 계좌이체 메서드
+	 * 
+	 * 이체액이 0원 초과인지를 확인 수금자 계좌번호 확인 송금자 계좌번호와 비밀번호 확인 송금자 계좌잔액을 확인(이체액보다 잔액이 적으면
+	 * 예외발생, 전파)
+	 * 
+	 * con.setAutoCommit(false)
+	 * 
+	 * 송금자 계좌 출금작업 수금자 계좌 입금작업
+	 * 
+	 * commit() ->try의 가장 마지막 부분 rollback() ->catch
+	 * 
+	 * @param senderAccountNo
+	 * @param password
+	 * @param money
+	 * @param receiverAccountNo
+	 * @throws NoMoneyException
+	 * @throws AccountNotFoundException
+	 * @throws SQLException
+	 * @throws NotMatchedPasswordException
+	 * @throws InsufficientBalanceException
+	 */
+	public void transfer(String senderAccountNo, String password, int money, String receiverAccountNo)
+			throws NoMoneyException, SQLException, AccountNotFoundException, NotMatchedPasswordException,
+			InsufficientBalanceException {
+		if (money <= 0)
+			throw new NoMoneyException("이채액은 0원을 초괴해야 합니다");
+		if (existAccountNo(receiverAccountNo) == false)
+			throw new AccountNotFoundException("이체받을 계좌가 존재하지 않습니다");
+		int balance = findBalanceByAccountNo(senderAccountNo, password);
+		if (balance < money) {
+			throw new InsufficientBalanceException("잔액 부족으로 이체할 수 없습니다.");
+		}
 		Connection con = null;
 		PreparedStatement pstmt = null;
-		if(money<=0)
-			throw new NoMoneyException("송금액은 0원 이상이어야 합니다");
-		int balance = findBalanceByAccountNo(accountNo, password);
-		if(balance<money) 
-			throw new InsufficientBalanceException("잔액이 부족합니다");
-		if(existAccountNo(receiverAccount)==false)
-			throw new AccountNotFoundException("수신인 계좌가 존재하지 않습니다");
 		try {
 			con = getConnection();
+			//수동커밋모드로 설정-> 트랜잭션 제어를 위해 
 			con.setAutoCommit(false);
-			String senderSql="UPDATE account SET balance=balance-? WHERE account_no=?";
-			String receiverSql = "UPDATE account SET balance=balance+? WHERE account_no=?";
-			pstmt = con.prepareStatement(senderSql);
+			String withdrawSql ="UPDATE account SET balance=balance-? WHERE account_no=?";
+			pstmt = con.prepareCall(withdrawSql);
 			pstmt.setInt(1, money);
-			pstmt.setString(2, accountNo);
+			pstmt.setString(2, senderAccountNo);
 			pstmt.executeUpdate();
 			pstmt.close();
-			pstmt=con.prepareStatement(receiverSql);
+			//이체 받는 사람의 계좌에 입금
+			String depositSql ="UPDATE account SET balance=balance+? WHERE account_no=?";
+			pstmt = con.prepareStatement(depositSql);
 			pstmt.setInt(1, money);
-			pstmt.setString(2, receiverAccount);
+			pstmt.setString(	2, receiverAccountNo);
 			pstmt.executeUpdate();
-			con.commit();
+			con.commit(); //출금, 입금 모든 작업이 정상적으로 처리되면 실제 db에 반영한다.
 		}catch(Exception e) {
 			con.rollback();
 			throw e;
-		}finally {
+		} finally {
 			closeAll(pstmt, con);
 		}
+
 	}
+
+	public ArrayList<AccountVO> findHighestBalanceAccount() throws SQLException {
+		ArrayList<AccountVO> list = new ArrayList<AccountVO>();
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		try {
+			con = getConnection();
+			//String sql = "SELECT account_no,name,balance FROM account WHERE balance=(SELECT MAX(balance) FROM account)";
+			StringBuilder sql = new StringBuilder("SELECT account_no,name,balance ");
+			sql.append("FROM account ");
+			sql.append("WHERE balance=(SELECT MAX(balance) FROM account)");
+			//pstmt = con.prepareStatement(sql);
+			pstmt = con.prepareStatement(sql.toString());
+			rs = pstmt.executeQuery();
+			while (rs.next())
+				list.add(new AccountVO(rs.getString("account_no"),rs.getInt("balance"),rs.getString("name")));
+				//list.add(new AccountVO( rs.getInt(1), rs.getString(2),rs.getString(3)));
+		} finally {
+			closeAll(rs, pstmt, con);
+		}
+		return list;
+	}
+
 }
