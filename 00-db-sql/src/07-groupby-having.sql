@@ -33,7 +33,20 @@ SELECT maker, COUNT(*) AS 상품수, ROUND(AVG(price)) AS 평균가
 FROM product
 GROUP BY maker
 HAVING ROUND(AVG(price)) >1540 
-ORDER BY 상품수;
+ORDER BY 상품수 ASC;
+
+SELECT * FROM s_employee;
+
+--job별 사원수 (job, 사원수) 를 조회하되 사원수 내림차순 정렬
+SELECT job, COUNT(*) AS 사원수 FROM s_employee GROUP BY job ORDER BY 사원수 desc;
+
+--job별 평균월급(avg(salary))을 조회하되 평균월급 내림차순 정렬 (job, 평균월급)
+-- 평균월급이 700을 초과하는 JOB에 한해서 조회한다
+SELECT job, AVG(salary)	AS 평균월급
+FROM s_employee 
+GROUP BY job 
+HAVING AVG(salary) >700
+ORDER BY 평균월급 DESC;
 
 
 

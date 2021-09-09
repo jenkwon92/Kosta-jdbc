@@ -56,7 +56,8 @@ SELECT MAX(salary) FROM s_employee WHERE job='개발'
 --위 SQL에서 조회된 salary 를 받는 사원 정보
 SELECT empno,name, job, salary FROM s_employee WHERE job='개발' AND salary =(SELECT MAX(salary) FROM s_employee WHERE job='개발');
 
- 
+ --sql test
+ SELECT job, COUNT(*) AS 사원수 ,MAX(salary) AS 최고월급 FROM s_employee GROUP BY job ORDER BY 최고월급 DESC
  
  
  
