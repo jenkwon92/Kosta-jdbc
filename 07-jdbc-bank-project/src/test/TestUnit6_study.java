@@ -15,7 +15,7 @@ public class TestUnit6_study {
 			String accountNo = "1"; // 존재하지 않는 계좌번호 테스트
 			String password = "1234"; // 패스워드테스트
 			int money = 10; // 출금액 테스트
-			String receiverAccount ="2";
+			String receiverAccount ="22";
 			System.out.println("출금전 계좌잔액 :" +dao.findBalanceByAccountNo(accountNo, password));
 			dao.transfer(accountNo, password, money, receiverAccount);
 			System.out.println("출금완료");

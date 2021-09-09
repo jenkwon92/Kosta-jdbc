@@ -15,3 +15,13 @@ INSERT INTO account(account_no, name, password, balance) VALUES(account_seq.NEXT
 
 --잔액 조회 , account_no가 존재하지 않으면 조회결과가 나오지 않는다
 SELECT password, balance FROM account WHERE account_no=1;
+
+UPDATE account SET balance=balance-? WHERE account_no=?
+
+UPDATE account SET balance=(balance=balance-50 WHERE account_no=1) AND (balance=balance+50 WHERE account_no=2);
+
+UPDATE account SET balance=balance-50 WHERE account_no=1 AND balance=balance+50 WHERE account_no=2;
+
+
+
+
