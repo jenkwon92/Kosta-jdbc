@@ -48,9 +48,34 @@ GROUP BY job
 HAVING AVG(salary) >700
 ORDER BY 평균월급 DESC;
 
+SELECT * FROM s_employee;
 
+--job에 해당하는 사원의 가장 높은 salary 를 조회
+SELECT MAX(salary) FROM s_employee WHERE job='개발'
+--위 SQL에서 조회된 salary 를 받는 사원 정보
+SELECT empno,name, job, salary FROM s_employee WHERE job='개발' AND salary =(SELECT MAX(salary) FROM s_employee WHERE job='개발');
 
+ --sql test
+ SELECT job, COUNT(*) AS 사원수 ,MAX(salary) AS 최고월급 FROM s_employee GROUP BY job ORDER BY 최고월급 DESC
+ 
+ --전체 사원의 평균월급(730) 보다 job그룹별 평균월급액이 작은 job그룹의job, 평균월급, 사원수를 조회
+ SELECT AVG(salary) FROM s_employee;
+ SELECT AVG(salary) FROM s_employee WHERE job='영업'; --600
+ SELECT AVG(salary) FROM s_employee WHERE job='개발'; --833.33
+ SELECT AVG(salary) FROM s_employee WHERE job='총무';  --720
+ 
+ SELECT AVG(salary) FROM s_employee GROUP BY job;
+ 
+ --총무직종, 영업직종 조회결과로 나와야 한다
+ SELECT job,AVG(salary) FROM s_employee GROUP BY job HAVING AVG(salary) >(SELECT AVG(salary) FROM s_employee );
+ 
+ SELECT job,AVG(salary) AS avgsal FROM s_employee GROUP BY job HAVING AVG(salary) <(SELECT AVG(salary) FROM s_employee) ORDER BY avgsal DESC;
 
+--product 
+SELECT * FROM product;
+
+SELECT AVG(price) FROM product;
+SELECT maker,ROUND(AVG(price)) AS avgsal FROM product GROUP BY maker HAVING ROUND(AVG(price))<(SELECT ROUND(AVG(price)) FROM product) ORDER BY avgsal DESC;
 
 
 
