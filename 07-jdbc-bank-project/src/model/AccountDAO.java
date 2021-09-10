@@ -199,50 +199,24 @@ public class AccountDAO {
 
 	// 트랜잭션 처리를 하려면 하나의 connection내에서 진행해야한다.
 	// 트랜잭션에서는 호출해서 처리하면 안됨
-	/*
-	 * public void transfer(String accountNo, String password, int money, String
-	 * receiverAccount) throws SQLException, AccountNotFoundException,
-	 * NotMatchedPasswordException, InsufficientBalanceException, NoMoneyException {
-	 * 
-	 * if (money <= 0) throw new NoMoneyException("송금액은 0원 이상이어야 합니다");
-	 * findBalanceByAccountNo(accountNo, password); if
-	 * (existAccountNo(receiverAccount) == false) throw new
-	 * AccountNotFoundException("수신인 계좌가 존재하지 않습니다"); Connection con = null;
-	 * PreparedStatement pstmt = null; try { con = getConnection();
-	 * con.setAutoCommit(false);
-	 * 
-	 * String receiverSql =
-	 * "UPDATE account SET balance=balance+? WHERE account_no=?";
-	 * withdraw(accountNo, password, money); //트랜잭션 처리를 하려면 하나의 connection내에서
-	 * 진행해야한다.
-	 * 
-	 * pstmt = con.prepareStatement(receiverSql); pstmt.setInt(1, money);
-	 * pstmt.setString(2, receiverAccount); pstmt.executeUpdate(); con.commit(); }
-	 * catch (Exception e) { con.rollback(); throw e; } finally { closeAll(pstmt,
-	 * con); } }
-	 */
 
 	public void transfer(String accountNo, String password, int money, String receiverAccount) throws SQLException,
 			AccountNotFoundException, NotMatchedPasswordException, InsufficientBalanceException, NoMoneyException {
-		Connection con = null;
-		PreparedStatement pstmt = null;
+
 		if (money <= 0)
 			throw new NoMoneyException("송금액은 0원 이상이어야 합니다");
-		int balance = findBalanceByAccountNo(accountNo, password);
-		if (balance < money)
-			throw new InsufficientBalanceException("잔액이 부족합니다");
+		findBalanceByAccountNo(accountNo, password);
 		if (existAccountNo(receiverAccount) == false)
 			throw new AccountNotFoundException("수신인 계좌가 존재하지 않습니다");
+		Connection con = null;
+		PreparedStatement pstmt = null;
 		try {
 			con = getConnection();
 			con.setAutoCommit(false);
-			String senderSql = "UPDATE account SET balance=balance-? WHERE account_no=?";
+
 			String receiverSql = "UPDATE account SET balance=balance+? WHERE account_no=?";
-			pstmt = con.prepareStatement(senderSql);
-			pstmt.setInt(1, money);
-			pstmt.setString(2, accountNo);
-			pstmt.executeUpdate();
-			pstmt.close();
+			withdraw(accountNo, password, money); // 트랜잭션 처리를 하려면 하나의 connection내에서 진행해야한다.
+
 			pstmt = con.prepareStatement(receiverSql);
 			pstmt.setInt(1, money);
 			pstmt.setString(2, receiverAccount);
@@ -256,6 +230,25 @@ public class AccountDAO {
 		}
 	}
 
+	/*
+	 * public void transfer(String accountNo, String password, int money, String
+	 * receiverAccount) throws SQLException, AccountNotFoundException,
+	 * NotMatchedPasswordException, InsufficientBalanceException, NoMoneyException {
+	 * Connection con = null; PreparedStatement pstmt = null; if (money <= 0) throw
+	 * new NoMoneyException("송금액은 0원 이상이어야 합니다"); int balance =
+	 * findBalanceByAccountNo(accountNo, password); if (balance < money) throw new
+	 * InsufficientBalanceException("잔액이 부족합니다"); if
+	 * (existAccountNo(receiverAccount) == false) throw new
+	 * AccountNotFoundException("수신인 계좌가 존재하지 않습니다"); try { con = getConnection();
+	 * con.setAutoCommit(false); String senderSql =
+	 * "UPDATE account SET balance=balance-? WHERE account_no=?"; String receiverSql
+	 * = "UPDATE account SET balance=balance+? WHERE account_no=?"; pstmt =
+	 * con.prepareStatement(senderSql); pstmt.setInt(1, money); pstmt.setString(2,
+	 * accountNo); pstmt.executeUpdate(); pstmt.close(); pstmt =
+	 * con.prepareStatement(receiverSql); pstmt.setInt(1, money); pstmt.setString(2,
+	 * receiverAccount); pstmt.executeUpdate(); con.commit(); } catch (Exception e)
+	 * { con.rollback(); throw e; } finally { closeAll(pstmt, con); } }
+	 */
 	public ArrayList<AccountVO> findHighestBalanceAccount() throws SQLException {
 		ArrayList<AccountVO> list = new ArrayList<AccountVO>();
 		Connection con = null;

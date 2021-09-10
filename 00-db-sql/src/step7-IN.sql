@@ -76,12 +76,6 @@ ORDER BY avgprice DESC;
 -- GROUP BY, HAVING , SUBQUERY, IN, ORDER BY 를 이용
 SELECT ROUND(AVG(price)) FROM food;
 
---내가 작성한 쿼리--------------------------------------------------------
-SELECT * FROM food 
-GROUP BY maker 
-HAVING ROUND(AVG(price)) 
-WHERE round(avg(PRICE)) IN (SELECT ROUND(AVG(price)) FROM food);
-
 --step 1. 전체 음식 평균가 
 SELECT ROUND(AVG(price)) FROM food;
 --step 2. maker별 음식 평균가 
@@ -124,7 +118,7 @@ SELECT AVG(salary) FROM s_employee WHERE job='개발';
 SELECT AVG(salary) FROM s_employee WHERE job='총무';
 SELECT AVG(salary) FROM s_employee WHERE job='영업';
 
-SELECT job,AVG(salary) FROM s_employee GROUP BY job HAVING AVG(salary)<=(SELECT AVG(salary) FROM s_employee);
+SELECT job FROM s_employee GROUP BY job HAVING AVG(salary)<=(SELECT AVG(salary) FROM s_employee);
 
 SELECT empno, name,job,salary
 FROM s_employee

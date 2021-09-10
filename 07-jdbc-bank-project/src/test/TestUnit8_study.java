@@ -16,7 +16,7 @@ public class TestUnit8_study {
 			String senderAccountNo="1";
 			String password="1234";
 			int money=100;
-			String receiverAccountNo="2";
+			String receiverAccountNo="4";
 			dao.transfer(senderAccountNo, password, money, receiverAccountNo);
 			
 		} catch (ClassNotFoundException e) {
