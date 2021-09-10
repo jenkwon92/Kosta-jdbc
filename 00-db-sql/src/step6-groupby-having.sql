@@ -74,10 +74,20 @@ SELECT empno,name, job, salary FROM s_employee WHERE job='개발' AND salary =(S
 --product 
 SELECT * FROM product;
 
-SELECT AVG(price) FROM product;
-SELECT maker,ROUND(AVG(price)) AS avgsal FROM product GROUP BY maker HAVING ROUND(AVG(price))<(SELECT ROUND(AVG(price)) FROM product) ORDER BY avgsal DESC;
+SELECT AVG(price) FROM product
 
+SELECT maker,ROUND(AVG(price)) AS avgprice 
+FROM product 
+GROUP BY maker 
+HAVING ROUND(AVG(price))<(SELECT ROUND(AVG(price)) FROM product) 
+ORDER BY avgprice DESC;
 
+--- 제조사별 상품의 평균가가 전체 상품의 평균가보다 작은 제조사의 이름과 상품평균가를 조회하되 평균가 내림차순으로 정렬한다
+SELECT maker, ROUND(AVG(price)) AS avgprice
+FROM product
+GROUP BY maker
+HAVING ROUND(AVG(price))	<(SELECT ROUND(AVG(price)) FROM product)
+ORDER BY avgprice DESC;
 
 
 

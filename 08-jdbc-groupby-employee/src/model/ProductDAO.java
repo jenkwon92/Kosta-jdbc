@@ -36,16 +36,21 @@ public class ProductDAO {
 		ResultSet rs =null;
 		try {
 			con = getConnection();
-			String sql ="SELECT maker,ROUND(AVG(price)) AS avgsal FROM product GROUP BY maker HAVING ROUND(AVG(price))<(SELECT ROUND(AVG(price)) FROM product) ORDER BY avgsal DESC";
-			pstmt = con.prepareStatement(sql);
+			//String sql ="SELECT maker,ROUND(AVG(price)) AS avgprice FROM product GROUP BY maker HAVING ROUND(AVG(price))<(SELECT ROUND(AVG(price)) FROM product) ORDER BY avgprice DESC";
+			StringBuilder sql = new StringBuilder("SELECT maker,ROUND(AVG(price)) AS avgprice ");
+			sql.append("FROM product ");
+			sql.append("GROUP BY maker ");
+			sql.append("HAVING ROUND(AVG(price))<(SELECT ROUND(AVG(price)) FROM product) ");
+			sql.append("ORDER BY avgprice DESC");
+			//pstmt = con.prepareStatement(sql);
+			pstmt = con.prepareStatement(sql.toString());
 			rs = pstmt.executeQuery();
 			while(rs.next()) {
 				HashMap<String, Object> map = new HashMap<String, Object>();
 				map.put("maker", rs.getString(1));
 				map.put("avgprice", rs.getInt(2));
 				list.add(map);
-			}
-				
+			}	
 		}finally {
 			closeAll(rs, pstmt, con);
 		}
