@@ -13,7 +13,10 @@
  													사원 정보가 사원테이블에 저장되기 위해서는 반드시 부서테이블에 저장되어있는 부서번호로만 
  													사원의 부서번호 정보로 저장될 수 있다.
  													부서테이블에 존재하지 않는 부서번호로 사원테이블에 사원 정보의 부서번호로 저장될 수 없다
+ 	
+ 	- Join SQL : 여러 테이블 간의 정보를 결합하기 위한 SQL (기본적인 Join SQL 연습하고 상세한 것은 이후 공부예정)
  											
+ 																															
  	사원번호, 사원명, 직종 월급, 부서명,부서근무지,부서대표전화번호.........
  	
  	실제 데이터
@@ -66,9 +69,38 @@ INSERT INTO k_employee(empno,ename,sal,deptno) VALUES(4,'김태리',800,40);
 
 commit
 
+/*
+ *  Join Sql
+ 	- 사원번호 1인 아이유 사원의 sal과 부서번호, 부서명, 지역을 조회하고자 한다
+ 		사원테이블과 부서테이블의 정보를 함께 조회해야 함 -> Join SQL을 이용하면 된다 
+ 		
+ 	형식 1
+ 	SELECT 컬럼명, 컬럼명
+ 	FROM 테이블명 별칭, 테이블명 별칭
+ 	WHERE 별칭.컬럼명=별칭.컬럼명 -- 조인 조건
+ 	
+ 	형식 2
+ 	SELECT 컬럼명, 컬럼명
+ 	FROM 테이블명 별칭
+ 	INNER JOIN 테이블명 별칭 ON  별칭.컬럼명= 별칭.컬럼명
+ */
+SELECT e.ename, e.sal, d.deptno,d.dname, d.loc
+FROM k_employee e, department d
+WHERE e.deptno = d.deptno
+AND e.empno=1
+-- 아래와 같이 표현할 수도 있다
+SELECT e.ename, e.sal, d.deptno,d.dname, d.loc
+FROM k_employee e
+INNER JOIN department d ON e.deptno=d.deptno
+WHERE e.empno=1
 
+SELECT e.empno, e.ename, e.sal, d.deptno, d.dname, d.loc,d.tel
+FROM k_employee e, department d
+WHERE e.deptno = d.deptno
+AND e.empno=1
 
-
-
-
+SELECT e.empno, e.ename, e.sal, d.deptno, d.dname, d.loc, d.tel
+FROM k_employee e
+INNER JOIN department d ON e.deptno=d.deptno
+WHERE e.empno=1
 
