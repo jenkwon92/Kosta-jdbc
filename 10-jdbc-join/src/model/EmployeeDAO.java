@@ -38,19 +38,28 @@ public class EmployeeDAO {
 		PreparedStatement pstmt = null;
 		ResultSet rs = null;
 		EmployeeVO employeeVO = null;
+
 		try {
 			con = getConnection();
 			StringBuilder sql = new StringBuilder("SELECT e.deptno,e.ename, e.sal, d.deptno, d.dname, d.loc,d.tel ");
 			sql.append("FROM k_employee e, department d ");
 			sql.append("WHERE e.deptno = d.deptno ");
 			sql.append("AND e.empno=?");
-			//아래와 같이도 가능
-			//SELECT e.empno, e.ename, e.sal, d.deptno, d.dname, d.loc, d.tel FROM k_employee e INNER JOIN department d ON e.deptno=d.deptno WHERE e.empno=1
+			// 아래와 같이도 가능
+			// SELECT e.empno, e.ename, e.sal, d.deptno, d.dname, d.loc, d.tel FROM
+			// k_employee e INNER JOIN department d ON e.deptno=d.deptno WHERE e.empno=1
 			pstmt = con.prepareStatement(sql.toString());
 			pstmt.setInt(1, empno);
 			rs = pstmt.executeQuery();
-			while(rs.next()) {
-				employeeVO = new EmployeeVO(rs.getInt(1),rs.getString(2),rs.getInt(3), new DepartmentVO(rs.getInt(4), rs.getString(5), rs.getString(6),rs.getString(7)));
+			while (rs.next()) {
+				employeeVO = new EmployeeVO(rs.getInt(1), rs.getString(2), rs.getInt(3),
+						new DepartmentVO(rs.getInt(4), rs.getString(5), rs.getString(6), rs.getString(7)));
+				/*
+				 * DepartmentVO dvo =new DepartmentVO(rs.getInt(4),
+				 * rs.getString(5),rs.getString(6),rs.getString(7)); employeeVO = new
+				 * EmployeeVO(rs.getInt(1),rs.getString(2),rs.getInt(3), dvo);
+				 */
+
 				/*
 				 * employeeVO =new EmployeeVO(); employeeVO.setEmpNo(empno);
 				 * employeeVO.setEname(rs.getString(1)); employeeVO.setSal(rs.getInt(2));
@@ -59,12 +68,11 @@ public class EmployeeDAO {
 				 * departmentVO.setLoc(rs.getString(5)); departmentVO.setTel(rs.getString(6));
 				 * employeeVO.setDepartmentVO(departmentVO);
 				 */
+
 			}
-		}finally {
+		} finally {
 			closeAll(rs, pstmt, con);
 		}
 		return employeeVO;
 	}
-
-	
 }
